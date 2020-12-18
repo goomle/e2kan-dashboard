@@ -81,6 +81,7 @@ export enum AttributeErrorCode {
 
 export enum AttributeInputTypeEnum {
   DROPDOWN = "DROPDOWN",
+  FILE = "FILE",
   MULTISELECT = "MULTISELECT",
 }
 
@@ -573,7 +574,6 @@ export enum OrderErrorCode {
   CANNOT_CANCEL_ORDER = "CANNOT_CANCEL_ORDER",
   CANNOT_DELETE = "CANNOT_DELETE",
   CANNOT_REFUND = "CANNOT_REFUND",
-  CANNOT_REFUND_FULFILLMENT_LINE = "CANNOT_REFUND_FULFILLMENT_LINE",
   CAPTURE_INACTIVE_PAYMENT = "CAPTURE_INACTIVE_PAYMENT",
   CHANNEL_INACTIVE = "CHANNEL_INACTIVE",
   DUPLICATED_INPUT_ITEM = "DUPLICATED_INPUT_ITEM",
@@ -633,7 +633,7 @@ export enum OrderEventsEnum {
   NOTE_ADDED = "NOTE_ADDED",
   ORDER_FULLY_PAID = "ORDER_FULLY_PAID",
   ORDER_MARKED_AS_PAID = "ORDER_MARKED_AS_PAID",
-  ORDER_REPLACE_CREATED = "ORDER_REPLACE_CREATED",
+  ORDER_REPLACEMENT_CREATED = "ORDER_REPLACEMENT_CREATED",
   OTHER = "OTHER",
   OVERSOLD_ITEMS = "OVERSOLD_ITEMS",
   PAYMENT_AUTHORIZED = "PAYMENT_AUTHORIZED",
@@ -1097,12 +1097,19 @@ export interface AttributeValueCreateInput {
 
 export interface AttributeValueInput {
   id?: string | null;
-  values: (string | null)[];
+  values?: (string | null)[] | null;
+  file?: string | null;
+  contentType?: string | null;
 }
 
 export interface AuthorizationKeyInput {
   key: string;
   password: string;
+}
+
+export interface BulkAttributeValueInput {
+  id?: string | null;
+  values: (string | null)[];
 }
 
 export interface CatalogueInput {
@@ -1627,7 +1634,7 @@ export interface ProductTypeSortingInput {
 }
 
 export interface ProductVariantBulkCreateInput {
-  attributes: (AttributeValueInput | null)[];
+  attributes: (BulkAttributeValueInput | null)[];
   sku: string;
   trackInventory?: boolean | null;
   weight?: any | null;
